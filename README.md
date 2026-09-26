@@ -68,7 +68,7 @@ All logic is 3.3 V.
 | U1 | Ebyte E80-900M2213S | 26-position castellated module | LR1121 dual-band LoRa radio |
 | IC2 | NXP SE050E2HQ1/Z01Z3Z | HX2QFN20, 3 × 3 mm | secure element |
 | SMA1, SMA2 | HJ-SMA175 (LCSC C1509213) | right-angle SMA jack, through-hole | 2.4 GHz and sub-GHz antenna ports |
-| C9 | 22 µF / 6.3 V | electrolytic, 4 × 5.4 mm | bulk capacitance on the module supply |
+| C9 | 22 µF / 6.3 V (LCSC C2161824) | aluminium polymer, SMD Ø4 × 5.5 mm | bulk capacitance on the module supply, 200 mΩ ESR |
 | C5 | 100 nF | 0603 | module decoupling |
 | C8 | 100 nF | 0603 | SE050 VIN decoupling |
 | C10 | 100 nF | 0603 | NRST filter |
