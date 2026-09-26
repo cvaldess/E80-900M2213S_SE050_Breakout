@@ -1,0 +1,7 @@
+(version 1)
+(rule "antipad pin SMA"
+  (condition "A.Type == 'Pad' && A.Pad_Type == 'Through-hole' && (A.NetName == 'Net-(SMA1-SIG)' || A.NetName == 'Net-(SMA2-SIG)') && B.Type == 'Zone'")
+  (constraint clearance (min 1.0mm)))
+(rule "plano a 0.5 del resto"
+  (condition "A.Type == 'Zone' && B.NetName != 'Net-(SMA1-SIG)' && B.NetName != 'Net-(SMA2-SIG)'")
+  (constraint clearance (min 0.5mm)))

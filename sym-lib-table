@@ -1,0 +1,6 @@
+(sym_lib_table
+  (version 7)
+
+  (lib (name "E80_Ebyte") (type "KiCad") (uri "${KIPRJMOD}/lib/E80_Ebyte.kicad_sym") (options "") (descr ""))
+  (lib (name "Connectors") (type "KiCad") (uri "${KIPRJMOD}/lib/Connectors.kicad_sym") (options "") (descr ""))
+  (lib (name "SE050E2HQ1") (type "KiCad") (uri "${KIPRJMOD}/lib/SE050E2HQ1.kicad_sym") (options "") (descr "")))
