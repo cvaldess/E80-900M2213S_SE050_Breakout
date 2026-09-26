@@ -37,16 +37,16 @@ Konnect, together with KiCad's own command-line and Python tools. Commits it co-
 | 4 | SCK | E80 pin 5 | LR1121 SPI |
 | 5 | NSS | E80 pin 6 | SPI chip select |
 | 6 | BUSY | E80 pin 7 | |
-| 7 | DIO1 | E80 pin 22 (LR1121 **DIO9**) | radio interrupt, see below |
-| 8 | NRST | E80 pin 21 | 4.7 kΩ pull-up and 100 nF to GND on board |
+| 7 | DIO9 | E80 pin 22 | LR1121 radio interrupt, see below |
+| 8 | NRST | E80 pin 21 | 10 kΩ pull-up and 100 nF to GND on board |
 | 9 | ENA | SE050 ENA | **must be driven high**, see below |
 | 10 | SDA | SE050 I²C data | 4.7 kΩ pull-up on board |
 | 11 | SCL | SE050 I²C clock | 4.7 kΩ pull-up on board |
 | 12 | GND | | |
 
-**Pin 7 is labelled DIO1 but it is the LR1121's DIO9.** The silkscreen uses the SX126x name that most
-LoRa host code expects for the interrupt line, but on the LR1121 that signal is DIO9 (module pin 22).
-Configure your driver's IRQ pin accordingly. DIO7 and DIO8 (module pins 24 and 23) are not
+**Pin 7 is the radio's interrupt line, DIO9.** Host code written for SX126x radios often calls
+this pin DIO1, but on the LR1121 the interrupt comes out on DIO9 (module pin 22), and the board uses
+the module's name. Point your driver's IRQ pin at it. DIO7 and DIO8 (module pins 24 and 23) are not
 broken out.
 
 **ENA is not optional.** R3 (100 kΩ) pulls it to ground, so the SE050 powers up in deep power-down
@@ -74,7 +74,7 @@ All logic is 3.3 V.
 | C10 | 100 nF | 0603 | NRST filter |
 | C6 | 33 nF | 0603 | ENA filter |
 | R4, R5 | 4.7 kΩ | 0603 | I²C pull-ups (SCL, SDA) |
-| R6 | 4.7 kΩ | 0603 | NRST pull-up |
+| R6 | 10 kΩ | 0603 | NRST pull-up |
 | R3 | 100 kΩ | 0603 | ENA pull-down |
 | J1 | 1×12 pin header | 2.00 mm pitch | host connector |
 | H1–H4 | — | M2.5, plated, tied to GND | mounting holes |

@@ -4449,7 +4449,7 @@
 			)
 		)
 	)
-	(global_label "LDI01"
+	(global_label "LDI09"
 		(shape bidirectional)
 		(at 60.96 106.68 180)
 		(effects
@@ -4537,7 +4537,7 @@
 			)
 		)
 	)
-	(global_label "LDI01"
+	(global_label "LDI09"
 		(shape output)
 		(at 87.63 161.29 0)
 		(effects
@@ -7635,7 +7635,7 @@
 				)
 			)
 		)
-		(property "Value" "4.7K"
+		(property "Value" "10K"
 			(at 166.116 131.318 0)
 			(show_name no)
 			(do_not_autoplace no)
