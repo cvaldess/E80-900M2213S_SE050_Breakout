@@ -4,7 +4,7 @@
 
 A breakout board for the **Ebyte E80-900M2213S** dual-band LoRa module (Semtech **LR1121**, sub-GHz
 and 2.4 GHz) with an **NXP EdgeLock SE050E2** secure element next to it. The radio's SPI bus and
-control lines and the secure element's I²C bus all come out on one 12-pin 2 mm header. Each antenna
+control lines and the secure element's I²C bus all come out on one 14-pin 2.54 mm header. Each antenna
 port has its own right-angle SMA connector, fed by a 50 Ω line.
 
 68.92 × 51.80 mm, two layers, 1.6 mm, four M2.5 mounting holes. Designed in KiCad 10. The project is
@@ -27,7 +27,7 @@ checked the design rules, added the 3D models and generated the fabrication file
 Konnect, together with KiCad's own command-line and Python tools. Commits it co-authored carry its
 `Co-Authored-By` line.
 
-## Pinout (J1, 1×12, 2.00 mm pitch)
+## Pinout (J2, 1×14, 2.54 mm pitch)
 
 | Pin | Signal | Connects to | Notes |
 |----|--------|-------------|-------|
@@ -37,23 +37,28 @@ Konnect, together with KiCad's own command-line and Python tools. Commits it co-
 | 4 | SCK | E80 pin 5 | LR1121 SPI |
 | 5 | NSS | E80 pin 6 | SPI chip select |
 | 6 | BUSY | E80 pin 7 | |
-| 7 | DIO9 | E80 pin 22 | LR1121 radio interrupt, see below |
-| 8 | NRST | E80 pin 21 | 10 kΩ pull-up and 100 nF to GND on board |
-| 9 | ENA | SE050 ENA | **must be driven high**, see below |
-| 10 | SDA | SE050 I²C data | 4.7 kΩ pull-up on board |
-| 11 | SCL | SE050 I²C clock | 4.7 kΩ pull-up on board |
-| 12 | GND | | |
+| 7 | DIO7 | E80 pin 24 | LR1121 I/O, see below |
+| 8 | DIO8 | E80 pin 23 | LR1121 I/O, see below |
+| 9 | DIO9 | E80 pin 22 | LR1121 radio interrupt, see below |
+| 10 | NRST | E80 pin 21 | 10 kΩ pull-up and 100 nF to GND on board |
+| 11 | ENA | SE050 ENA | **must be driven high**, see below |
+| 12 | SDA | SE050 I²C data | 4.7 kΩ pull-up on board |
+| 13 | SCL | SE050 I²C clock | 4.7 kΩ pull-up on board |
+| 14 | GND | | |
 
-**Pin 7 is the radio's interrupt line, DIO9.** Host code written for SX126x radios often calls
+**Pin 9 is the radio's interrupt line, DIO9.** Host code written for SX126x radios often calls
 this pin DIO1, but on the LR1121 the interrupt comes out on DIO9 (module pin 22), and the board uses
-the module's name. Point your driver's IRQ pin at it. DIO7 and DIO8 (module pins 24 and 23) are not
-broken out.
+the module's name. Point your driver's IRQ pin at it.
+
+**DIO7 and DIO8** (module pins 24 and 23) come out on pins 7 and 8. Ebyte's manual lists them as
+LR1121 input/output lines and refers to the chip's datasheet for their use. Leave them unconnected if
+you don't need them.
 
 **ENA is not optional.** R3 (100 kΩ) pulls it to ground, so the SE050 powers up in deep power-down
 and will **not answer on I²C** until the host drives ENA high. If a bus scan finds nothing at
 **0x48**, this is the reason. Unlike the standalone
 [SE050 breakout](https://github.com/cvaldess/se050-breakout), this board has no solder jumper to
-tie ENA high. If you have no GPIO to spare, connect pin 9 to 3V3 externally.
+tie ENA high. If you have no GPIO to spare, connect pin 11 to 3V3 externally.
 
 All logic is 3.3 V.
 
@@ -76,7 +81,7 @@ All logic is 3.3 V.
 | R4, R5 | 4.7 kΩ | 0603 | I²C pull-ups (SCL, SDA) |
 | R6 | 10 kΩ | 0603 | NRST pull-up |
 | R3 | 100 kΩ | 0603 | ENA pull-down |
-| J1 | 1×12 pin header | 2.00 mm pitch | host connector |
+| J2 | 1×14 pin header | 2.54 mm pitch | host connector |
 | H1–H4 | — | M2.5, plated, tied to GND | mounting holes |
 
 SMA1 is the **2.4 GHz** port (module pin 12) and SMA2 the **sub-GHz** port (module pin 15, labelled
@@ -102,8 +107,9 @@ from the command line with the project's own rules.
 **The SE050 circuit is the one from [se050-breakout](https://github.com/cvaldess/se050-breakout)**,
 where an earlier revision was built and validated on hardware. VOUT and VCC are tied together with no
 capacitor, RST_N goes to ground and the ISO7816 pins are left unconnected. The reasons for each of
-these are in that repository's design notes. What is different here: 0603 passives, no ENA jumper,
-and the I²C pull-ups share the header with the radio.
+these are in that repository's design notes. The exposed pad goes to ground through the same five
+0.3 mm vias, one in the centre and one under each of the four paste windows. What is different here:
+0603 passives, no ENA jumper, and the I²C pull-ups share the header with the radio.
 
 **Module footprint.** The E80 has 26 positions but only 22 pads (positions 9, 10, 17 and 18 do not
 exist). The footprint in `lib/` follows Ebyte's drawing. If you start from Ebyte's own Altium library
@@ -123,7 +129,7 @@ Everything a board house needs is in [`gerber/`](gerber/), and the same files ar
   board outline, plus the Gerber job file
 - Excellon drill files, plated and non-plated separately, with drill maps
 
-There is **no bottom silkscreen**. All 291 holes are plated (233 of them are 0.3 mm vias). The
+There is **no bottom silkscreen**. All 297 holes are plated (237 of them are 0.3 mm vias). The
 smallest track and clearance are 0.2 mm, which is within any standard two-layer service.
 
 **Before ordering, check the RF gap against your fab's stack-up.** The 4.5 permittivity and 1.51 mm
